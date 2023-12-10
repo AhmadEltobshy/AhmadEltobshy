@@ -10,7 +10,7 @@
 
 ###
 
-<p align="left">✨ I am creating bugs since my childhood but i took it as a career since 4 years ago<br>📚 I'm currently learning some programming priciples as i believe a good BIM developer should also a good software developer<br>🎯 Goals: become top rated BIM Developer with a good experience in automating the whole BIM process<br>🎲 Fun fact:  I enjoy solving complex puzzles in my spare time.</p>
+<p align="left">✨ I am creating bugs since my childhood but I took it as a career since 4 years ago<br>📚 I'm currently learning some programming principles as I believe a good BIM developer should also be a good software developer<br>🎯 Goals: become top rated BIM Developer with a good experience in automating the whole BIM process<br>🎲 Fun fact:  The first interview I had accepted in a position away from BIM development, they asked me Where do you see yourself in five years? I answered "I will become a BIM Developer", two years later I was so.</p>
 
 ###
 
