@@ -5,9 +5,7 @@ from pathlib import Path
 import subprocess
 import urllib.request
 from html import escape
-from PIL import Image, ImageOps
-import io
-import resvg_py
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 USER = 'AhmadEltobshy'
@@ -35,7 +33,10 @@ def text(x, y, value, color, size=16, weight='normal'):
 def svg(width, height, background, body, title):
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-label="{escape(title)}">
 <title>{escape(title)}</title>
-<style>text {{font-family:Consolas,Menlo,monospace;white-space:pre}}</style>
+<style>
+@font-face {{font-family:ConsolasFallback;src:local('Consolas'),local('Consolas Bold');font-display:swap;size-adjust:109%;}}
+text {{font-family:ConsolasFallback,Consolas,monospace;white-space:pre}}
+</style>
 <rect width="{width}" height="{height}" rx="14" fill="{background}"/>
 {''.join(body)}</svg>'''
 
@@ -47,16 +48,19 @@ def build():
     cache = ROOT / 'assets' / 'stats.json'
     cache.write_text(json.dumps({'followers': user['followers'], 'public_repos': user['public_repos'],
         'stars': sum(r['stargazers_count'] for r in repos if not r['fork']), 'calendar': calendar}, indent=2) + '\n', encoding='utf-8')
-    portrait = Image.open(ROOT / 'assets' / 'portrait.png').convert('RGB')
-    # Preserve the supplied artwork's aspect ratio and full silhouette.
-    scale = 3
-    portrait = ImageOps.contain(portrait, (360 * scale, 500 * scale), Image.Resampling.LANCZOS)
-    portrait_alpha = ImageOps.grayscale(portrait).point(lambda alpha: min(255, round(alpha * 1.35)))
+    portrait = ET.parse(ROOT / 'assets' / 'portrait-vector.svg').getroot()
+    portrait_scale = min(360 / float(portrait.attrib['width']), 500 / float(portrait.attrib['height']))
+    portrait_x = 15 + (360 - float(portrait.attrib['width']) * portrait_scale) / 2
+    portrait_y = 15 + (500 - float(portrait.attrib['height']) * portrait_scale) / 2
     profile = json.loads((ROOT / 'assets' / 'profile.json').read_text(encoding='utf-8'))
     for theme, bg, fg, muted, accent, value, levels in [
         ('dark', '#161b22', '#c9d1d9', '#616e7f', '#ffa657', '#a5d6ff', ['#242d38','#0e4429','#006d32','#26a641','#39d353']),
         ('light', '#f6f8fa', '#24292f', '#6e7781', '#b64b08', '#0550ae', ['#e6e9ed','#9be9a8','#40c463','#30a14e','#216e39'])]:
         body = []
+        paths = []
+        for path in portrait.findall('{http://www.w3.org/2000/svg}path'):
+            paths.append(f'<path d="{escape(path.attrib["d"], quote=True)}" fill-opacity="{path.attrib.get("fill-opacity", "1")}" transform="{escape(path.attrib.get("transform", ""), quote=True)}"/>')
+        body.append(f'<g fill="{fg}" transform="translate({portrait_x},{portrait_y}) scale({portrait_scale})">{"".join(paths)}</g>')
         rows = [(30, 'section', 'ahmad@eltobshy'),
             (50, 'OS', profile['OS']), (70, 'Location', 'Egypt'),
             (90, 'Role', 'BIM Developer'), (110, 'Coding.Since', '2020'),
@@ -81,14 +85,7 @@ def build():
                 label = f'<tspan fill="{fg}">.</tspan>'.join(f'<tspan fill="{accent}">{escape(part)}</tspan>' for part in key.split('.'))
                 body.append(f'<text x="390" y="{y}" font-size="16"><tspan fill="{muted}">. </tspan>{label}<tspan fill="{fg}">:</tspan><tspan fill="{muted}"> {dots} </tspan><tspan fill="{value}">{escape(val)}</tspan></text>')
         card_svg = svg(985, 530, bg, body, 'Ahmad Eltobshy — BIM Developer')
-        card = Image.open(io.BytesIO(resvg_py.svg_to_bytes(svg_string=card_svg, zoom=scale))).convert('RGBA')
-        # Treat the original black background as transparent so the portrait
-        # shares the card's surface in both themes without a boxed border.
-        ink = Image.new('RGB', portrait.size, fg)
-        origin = (15 * scale + (360 * scale - portrait.width) // 2,
-                  15 * scale + (500 * scale - portrait.height) // 2)
-        card.paste(ink, origin, portrait_alpha)
-        card.save(ROOT / f'{theme}_mode.png', optimize=True)
+        (ROOT / f'{theme}_mode.svg').write_text(card_svg, encoding='utf-8')
         for name, label, detail in [('projects', 'Repositories', 'Explore my work ↗'), ('email', 'Get in touch', 'Send me an email ↗')]:
             elements = [text(24, 32, label, accent, 18, 'bold'), text(24, 58, detail, fg, 14), text(452, 46, '↗', muted, 24)]
             (ROOT / f'link_{name}_{theme}.svg').write_text(svg(502, 80, bg, elements, label), encoding='utf-8')
