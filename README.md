@@ -1,65 +1,24 @@
-<h1 align="left">Hey 👋 What's up? Welcome to my GitHub</h1>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./dark_mode.svg">
+  <img src="./light_mode.svg" alt="Ahmad Eltobshy — BIM Developer from Egypt. C#, .NET, TypeScript and BIM automation." width="100%">
+</picture>
 
-###
+<p align="left"><a href="https://github.com/AhmadEltobshy?tab=repositories"><picture><source media="(prefers-color-scheme: dark)" srcset="./link_projects_dark.svg"><img src="./link_projects_light.svg" alt="Explore my repositories" width="49%"></picture></a> <a href="mailto:ahmadeltobshy@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="./link_email_dark.svg"><img src="./link_email_light.svg" alt="Email Ahmad Eltobshy" width="49%"></picture></a></p>
 
-<p align="left">My name is Ahmad Eltobshy and I'm a BIM Developer, from Egypt.</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./pacman_dark.svg">
+  <img src="./pacman_light.svg" alt="Pac-Man sweeping my GitHub contribution graph" width="100%">
+</picture>
 
-###
+<details>
+<summary>A little more about me</summary>
 
-<h2 align="left">About me</h2>
+I'm Ahmad, a BIM developer from Egypt. I've been coding professionally since 2020, with a goal of automating the whole BIM process.
 
-###
+I'm continuing to learn programming and software design principles because I believe a good BIM developer should also be a good software developer.
 
-<p align="left">✨ I am creating bugs since my childhood but I took it as a career since 2020 <br>📚 I'm currently learning some programming principles as I believe a good BIM developer should also be a good software developer<br>🎯 Goals: become top rated BIM Developer with a good experience in automating the whole BIM process<br>🎲 Fun fact:  The first interview I had accepted in a position away from BIM development, they asked me Where do you see yourself in five years? I answered "I will become a BIM Developer", two years later I was so.</p>
+**A small story:** In an interview for a role outside BIM development, I was asked where I saw myself in five years. I answered, “I will become a BIM Developer.” Two years later, I was.
 
-###
+**Tools I work with:** C#, .NET, JavaScript, TypeScript, Node.js, React, Angular, HTML, CSS, Bootstrap, jQuery, MongoDB, SQLite, MySQL, Azure, AWS, Git and VS Code.
 
-<h2 align="left">I code with</h2>
-
-###
-
-<div align="left">
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" height="40" alt="dotnetcore logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" height="40" alt="csharp logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="40" alt="typescript logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" height="40" alt="nodejs logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="40" alt="react logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-plain.svg" height="40" alt="angularjs logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="40" alt="html5 logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" height="40" alt="css3 logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" height="40" alt="bootstrap logo"  />
-  <img width="12" />
-  <img src="https://cdn.simpleicons.org/jquery/0769AD" height="40" alt="jquery logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" height="40" alt="mongodb logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" height="40" alt="sqlite logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=mysql" height="40" alt="mysql logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" height="40" alt="azure logo"  />
-  <img width="12" />
-  <img src="https://skillicons.dev/icons?i=aws" height="40" alt="amazonwebservices logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" height="40" alt="git logo"  />
-  <img width="12" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" height="40" alt="vscode logo"  />
-</div>
-
-<h2 align="left">📫 Contact me</h2>
-
-<p align="left">
-  <a href="mailto:ahmadeltobshy@gmail.com">ahmadeltobshy@gmail.com</a>
-</p>
-
-###
+</details>
