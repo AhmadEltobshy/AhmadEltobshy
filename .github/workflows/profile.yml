@@ -8,6 +8,7 @@ on:
     paths:
       - 'tools/**'
       - 'assets/portrait.txt'
+      - 'assets/profile.json'
       - '.github/workflows/profile.yml'
 permissions:
   contents: write
