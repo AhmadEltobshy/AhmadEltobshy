@@ -45,12 +45,15 @@ def build():
     cache.write_text(json.dumps({'followers': user['followers'], 'public_repos': user['public_repos'],
         'stars': sum(r['stargazers_count'] for r in repos if not r['fork']), 'calendar': calendar}, indent=2) + '\n', encoding='utf-8')
     portrait = (ROOT / 'assets' / 'portrait.txt').read_text().splitlines()
+    portrait_size = min(11, 408 / (max(map(len, portrait), default=1) * 0.61), 452 / (max(1, len(portrait)) * 1.5))
+    portrait_step = portrait_size * 1.5
+    portrait_top = (565 - (len(portrait) - 1) * portrait_step) / 2
     for theme, bg, fg, muted, accent, value, levels in [
         ('dark', '#161b22', '#c9d1d9', '#778395', '#f78c35', '#a5d6ff', ['#242d38','#0e4429','#006d32','#26a641','#39d353']),
         ('light', '#f6f8fa', '#24292f', '#6e7781', '#b64b08', '#0550ae', ['#e6e9ed','#9be9a8','#40c463','#30a14e','#216e39'])]:
         body = []
         for i, line in enumerate(portrait):
-            body.append(text(20, 106 + i * 11.6, line, muted, 9.6))
+            body.append(text(20, portrait_top + i * portrait_step, line, muted, portrait_size))
         body.append(text(452, 40, 'ahmad@eltobshy ~', accent, 19, 'bold'))
         body.append(text(452, 65, '─' * 51, muted, 16))
         rows = [
