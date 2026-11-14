@@ -48,47 +48,46 @@ def build():
     cache.write_text(json.dumps({'followers': user['followers'], 'public_repos': user['public_repos'],
         'stars': sum(r['stargazers_count'] for r in repos if not r['fork']), 'calendar': calendar}, indent=2) + '\n', encoding='utf-8')
     portrait = Image.open(ROOT / 'assets' / 'portrait.png').convert('RGB')
-    # Fit the supplied image without stretching it. Center cropping trims
-    # background columns while keeping the face within the portrait panel.
-    portrait = ImageOps.fit(portrait, (720, 1000), Image.Resampling.LANCZOS)
+    # Preserve the supplied artwork's aspect ratio and full silhouette.
+    scale = 3
+    portrait = ImageOps.contain(portrait, (360 * scale, 500 * scale), Image.Resampling.LANCZOS)
+    portrait_alpha = ImageOps.grayscale(portrait).point(lambda alpha: min(255, round(alpha * 1.35)))
     profile = json.loads((ROOT / 'assets' / 'profile.json').read_text(encoding='utf-8'))
     for theme, bg, fg, muted, accent, value, levels in [
         ('dark', '#161b22', '#c9d1d9', '#616e7f', '#ffa657', '#a5d6ff', ['#242d38','#0e4429','#006d32','#26a641','#39d353']),
         ('light', '#f6f8fa', '#24292f', '#6e7781', '#b64b08', '#0550ae', ['#e6e9ed','#9be9a8','#40c463','#30a14e','#216e39'])]:
         body = []
-        rows = [('section', 'ahmad@eltobshy')]
-        rows += [(k, profile[k]) for k in ['OS', 'Workplace', 'IDE'] if profile.get(k)]
-        rows += [('Role', 'BIM Developer'), ('Location', 'Egypt'), ('', ''),
-            ('Languages.Programming', 'C#, TypeScript, JavaScript'),
-            ('Languages.Computer', 'HTML, CSS, SQL')]
-        if profile.get('Languages.Spoken'):
-            rows.append(('Languages.Spoken', profile['Languages.Spoken']))
-        rows += [('', ''), ('Focus', 'BIM process automation'),
-            ('Frameworks', '.NET, Node.js, Angular, React'), ('', ''),
-            ('section', 'Contact'), ('Email.Personal', 'ahmadeltobshy@gmail.com'),
-            ('GitHub', '@AhmadEltobshy'), ('', ''), ('section', 'GitHub Stats'),
-            ('Public repos', str(user['public_repos'])),
-            ('Stars / Followers', f"{sum(r['stargazers_count'] for r in repos if not r['fork'])} / {user['followers']}"),
-            ('Contributions.Year', f"{calendar['totalContributions']:,}")]
-        y = 30
-        for i, (key, val) in enumerate(rows):
+        rows = [(30, 'section', 'ahmad@eltobshy'),
+            (50, 'OS', profile['OS']), (70, 'Location', 'Egypt'),
+            (90, 'Role', 'BIM Developer'), (110, 'Coding.Since', '2020'),
+            (130, 'IDE', profile['IDE']),
+            (170, 'Language.Programming', 'C#, TypeScript, JavaScript'),
+            (190, 'Language.Computer', 'HTML, CSS, SQL'),
+            (210, 'Language.Real', profile['Languages.Spoken']),
+            (250, 'Focus.Software', 'BIM process automation'),
+            (270, 'Frameworks', '.NET, Node.js, Angular, React'),
+            (310, 'section', 'Contact'), (330, 'Email.Personal', 'ahmadeltobshy@gmail.com'),
+            (350, 'GitHub', '@AhmadEltobshy'), (450, 'section', 'GitHub Stats'),
+            (470, 'Repos.Public', str(user['public_repos'])),
+            (490, 'Stars / Followers', f"{sum(r['stargazers_count'] for r in repos if not r['fork'])} / {user['followers']}"),
+            (510, 'Contributions.Year', f"{calendar['totalContributions']:,}")]
+        for y, key, val in rows:
             if key == 'section':
-                if val == 'Contact':
-                    y = max(y, 310)
-                elif val == 'GitHub Stats':
-                    y = max(y, 450)
-                heading = val + ' ' + '─' * max(0, 57 - len(val))
+                label = val if y == 30 else '- ' + val
+                heading = label + ' -' + '—' * max(0, 57 - len(label) - 2) + '-'
                 body.append(text(390, y, heading, fg, 16))
             elif key:
                 dots = '.' * max(2, 54 - len(key) - len(val))
-                body.append(f'<text x="390" y="{y}" font-size="16"><tspan fill="{muted}">. </tspan><tspan fill="{accent}">{escape(key)}</tspan><tspan fill="{muted}">: {dots} </tspan><tspan fill="{value}">{escape(val)}</tspan></text>')
-            y += 20
+                label = f'<tspan fill="{fg}">.</tspan>'.join(f'<tspan fill="{accent}">{escape(part)}</tspan>' for part in key.split('.'))
+                body.append(f'<text x="390" y="{y}" font-size="16"><tspan fill="{muted}">. </tspan>{label}<tspan fill="{fg}">:</tspan><tspan fill="{muted}"> {dots} </tspan><tspan fill="{value}">{escape(val)}</tspan></text>')
         card_svg = svg(985, 530, bg, body, 'Ahmad Eltobshy — BIM Developer')
-        card = Image.open(io.BytesIO(resvg_py.svg_to_bytes(svg_string=card_svg, zoom=2))).convert('RGBA')
-        mask = Image.new('L', portrait.size, 0)
-        from PIL import ImageDraw
-        ImageDraw.Draw(mask).rounded_rectangle((0, 0, 719, 999), radius=16, fill=255)
-        card.paste(portrait, (30, 30), mask)
+        card = Image.open(io.BytesIO(resvg_py.svg_to_bytes(svg_string=card_svg, zoom=scale))).convert('RGBA')
+        # Treat the original black background as transparent so the portrait
+        # shares the card's surface in both themes without a boxed border.
+        ink = Image.new('RGB', portrait.size, fg)
+        origin = (15 * scale + (360 * scale - portrait.width) // 2,
+                  15 * scale + (500 * scale - portrait.height) // 2)
+        card.paste(ink, origin, portrait_alpha)
         card.save(ROOT / f'{theme}_mode.png', optimize=True)
         for name, label, detail in [('projects', 'Repositories', 'Explore my work ↗'), ('email', 'Get in touch', 'Send me an email ↗')]:
             elements = [text(24, 32, label, accent, 18, 'bold'), text(24, 58, detail, fg, 14), text(452, 46, '↗', muted, 24)]
