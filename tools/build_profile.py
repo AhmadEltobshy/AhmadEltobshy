@@ -62,7 +62,7 @@ def write_custom_dark():
         row(130, 'IDE', 'VS Code'), row(170, 'Language.Programming', 'C#, TypeScript, JavaScript'),
         row(190, 'Language.Computer', 'HTML, CSS, SQL'), row(210, 'Language.Real', 'English, Arabic'),
         row(250, 'Focus.AI', 'AI engineering, autonomous agents,'),
-        '<text x="390" y="270" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#a5d6ff">             and software tools</tspan></text>',
+        '<text x="620" y="270" font-family="Consolas, Menlo, monospace" font-size="16" fill="#a5d6ff">and software tools</text>',
         row(290, 'Databases', 'MongoDB, SQLite, MySQL, PostgreSQL'),
         heading(330, 'Contact'), row(350, 'Email.Personal', 'ahmadeltobshy@gmail.com'),
         row(370, 'GitHub', '@AhmadEltobshy'), heading(430, 'GitHub Stats'),
