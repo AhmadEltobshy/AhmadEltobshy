@@ -44,15 +44,31 @@ text {{font-family:ConsolasFallback,Consolas,monospace;white-space:pre}}
 def write_custom_dark():
     """Apply profile details over the user-maintained dark card source."""
     custom = (ROOT / 'assets' / 'custom_dark_mode.svg').read_text(encoding='utf-8')
-    overlay = '''<rect x="390" y="71" width="580" height="28" fill="#161b22"/>
-<text x="390" y="91" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#ffa657">Role</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#616e7f">................................ </tspan><tspan fill="#a5d6ff">AEC Software Engineer</tspan></text>
-<rect x="390" y="231" width="580" height="164" fill="#161b22"/>
-<text x="390" y="251" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#ffa657">Focus</tspan><tspan fill="#c9d1d9">.</tspan><tspan fill="#ffa657">AI</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#616e7f">........ </tspan><tspan fill="#a5d6ff">AI engineering, autonomous agents,</tspan></text>
-<text x="390" y="271" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#a5d6ff">             and software tools</tspan></text>
-<text x="390" y="291" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#ffa657">Databases</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#a5d6ff">MongoDB, SQLite, MySQL, PostgreSQL</tspan></text>
-<text x="390" y="331" font-family="Consolas, Menlo, monospace" font-size="16" fill="#c9d1d9">- Contact ───────────────────────────────────────────────</text>
-<text x="390" y="351" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#ffa657">Email</tspan><tspan fill="#c9d1d9">.</tspan><tspan fill="#ffa657">Personal</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#616e7f">..................... </tspan><tspan fill="#a5d6ff">ahmadeltobshy@gmail.com</tspan></text>
-<text x="390" y="371" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#ffa657">GitHub</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#616e7f">................................... </tspan><tspan fill="#a5d6ff">@AhmadEltobshy</tspan></text>'''
+    colors = {'fg': '#c9d1d9', 'muted': '#616e7f', 'key': '#ffa657', 'value': '#a5d6ff'}
+
+    def row(y, key, value):
+        dots = '.' * max(3, 53 - len(key) - len(value))
+        return (f'<text x="390" y="{y}" font-family="Consolas, Menlo, monospace" font-size="16">'
+                f'<tspan fill="{colors["muted"]}">. </tspan><tspan fill="{colors["key"]}">{key}</tspan>'
+                f'<tspan fill="{colors["fg"]}">:</tspan><tspan fill="{colors["muted"]}"> {dots} </tspan>'
+                f'<tspan fill="{colors["value"]}">{value}</tspan></text>')
+
+    heading = lambda y, label: (f'<text x="390" y="{y}" font-family="Consolas, Menlo, monospace" '
+                                f'font-size="16" fill="{colors["fg"]}">- {label} ─────────────────────────────────────────────</text>')
+    rows = [
+        '<text x="390" y="30" font-family="Consolas, Menlo, monospace" font-size="16" fill="#c9d1d9">ahmad@eltobshy ───────────────────────────────────────────</text>',
+        row(50, 'OS', 'Windows, Linux'), row(70, 'Location', 'Egypt'),
+        row(90, 'Role', 'AEC Software Engineer'), row(110, 'Coding.Since', '2020'),
+        row(130, 'IDE', 'VS Code'), row(170, 'Language.Programming', 'C#, TypeScript, JavaScript'),
+        row(190, 'Language.Computer', 'HTML, CSS, SQL'), row(210, 'Language.Real', 'English, Arabic'),
+        row(250, 'Focus.AI', 'AI engineering, autonomous agents,'),
+        '<text x="390" y="270" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#a5d6ff">             and software tools</tspan></text>',
+        row(290, 'Databases', 'MongoDB, SQLite, MySQL, PostgreSQL'),
+        heading(330, 'Contact'), row(350, 'Email.Personal', 'ahmadeltobshy@gmail.com'),
+        row(370, 'GitHub', '@AhmadEltobshy'), heading(430, 'GitHub Stats'),
+        row(450, 'Repos.Public', '9'), row(470, 'Stars / Followers', '0 / 2'),
+        row(490, 'Contributions.Year', '3,736')]
+    overlay = f'<rect x="380" y="15" width="590" height="500" fill="#161b22"/>{"".join(rows)}'
     (ROOT / 'dark_mode.svg').write_text(custom.rsplit('</svg>', 1)[0] + overlay + '</svg>', encoding='utf-8')
 
 def build():

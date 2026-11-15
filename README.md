@@ -3,12 +3,7 @@
   <img src="./light_mode.svg" alt="Ahmad Eltobshy — BIM Developer from Egypt. C#, .NET, TypeScript and BIM automation." width="100%">
 </picture>
 
-<p align="left"><a href="https://github.com/AhmadEltobshy?tab=repositories"><picture><source media="(prefers-color-scheme: dark)" srcset="./link_projects_dark.svg"><img src="./link_projects_light.svg" alt="Explore my repositories" width="49%"></picture></a> <a href="mailto:ahmadeltobshy@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="./link_email_dark.svg"><img src="./link_email_light.svg" alt="Email Ahmad Eltobshy" width="49%"></picture></a></p>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./pacman_dark.svg">
-  <img src="./pacman_light.svg" alt="Pac-Man sweeping my GitHub contribution graph" width="100%">
-</picture>
+<p align="left"><a href="https://github.com/AhmadEltobshy?tab=repositories"><picture><source media="(prefers-color-scheme: dark)" srcset="./link_projects_dark.svg"><img src="./link_projects_light.svg" alt="Explore my repositories" width="50%"></picture></a><a href="mailto:ahmadeltobshy@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="./link_email_dark.svg"><img src="./link_email_light.svg" alt="Email Ahmad Eltobshy" width="50%"></picture></a></p>
 
 <details>
 <summary>A little more about me</summary>
