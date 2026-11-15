@@ -8,7 +8,7 @@
 <details>
 <summary>A little more about me</summary>
 
-I'm Ahmad, a BIM developer from Egypt. I've been coding professionally since 2020, with a goal of automating the whole BIM process.
+I'm Ahmad, a AEC Software Engineer from Egypt. I've been coding professionally since 2020, with a goal of automating the whole BIM process.
 
 I'm continuing to learn programming and software design principles because I believe a good BIM developer should also be a good software developer.
 
