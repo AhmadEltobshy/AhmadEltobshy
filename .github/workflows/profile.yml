@@ -8,6 +8,7 @@ on:
     paths:
       - 'tools/**'
       - 'assets/portrait-vector.svg'
+      - 'assets/custom_dark_mode.svg'
       - 'assets/profile.json'
       - '.github/workflows/profile.yml'
 permissions:

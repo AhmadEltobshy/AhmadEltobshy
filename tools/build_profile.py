@@ -85,7 +85,12 @@ def build():
                 label = f'<tspan fill="{fg}">.</tspan>'.join(f'<tspan fill="{accent}">{escape(part)}</tspan>' for part in key.split('.'))
                 body.append(f'<text x="390" y="{y}" font-size="16"><tspan fill="{muted}">. </tspan>{label}<tspan fill="{fg}">:</tspan><tspan fill="{muted}"> {dots} </tspan><tspan fill="{value}">{escape(val)}</tspan></text>')
         card_svg = svg(985, 530, bg, body, 'Ahmad Eltobshy — BIM Developer')
-        (ROOT / f'{theme}_mode.svg').write_text(card_svg, encoding='utf-8')
+        # The dark profile card is a user-edited SVG. Keep it verbatim so the
+        # scheduled refresh never rewrites its custom layout or artwork.
+        if theme == 'dark' and (ROOT / 'assets' / 'custom_dark_mode.svg').exists():
+            (ROOT / 'dark_mode.svg').write_bytes((ROOT / 'assets' / 'custom_dark_mode.svg').read_bytes())
+        else:
+            (ROOT / f'{theme}_mode.svg').write_text(card_svg, encoding='utf-8')
         for name, label, detail in [('projects', 'Repositories', 'Explore my work ↗'), ('email', 'Get in touch', 'Send me an email ↗')]:
             elements = [text(24, 32, label, accent, 18, 'bold'), text(24, 58, detail, fg, 14), text(452, 46, '↗', muted, 24)]
             (ROOT / f'link_{name}_{theme}.svg').write_text(svg(502, 80, bg, elements, label), encoding='utf-8')
