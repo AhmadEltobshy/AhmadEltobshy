@@ -40,6 +40,17 @@ text {{font-family:ConsolasFallback,Consolas,monospace;white-space:pre}}
 <rect width="{width}" height="{height}" rx="14" fill="{background}"/>
 {''.join(body)}</svg>'''
 
+
+def write_custom_dark():
+    """Apply profile details over the user-maintained dark card source."""
+    custom = (ROOT / 'assets' / 'custom_dark_mode.svg').read_text(encoding='utf-8')
+    overlay = '''<rect x="390" y="71" width="580" height="28" fill="#161b22"/>
+<text x="390" y="91" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#ffa657">Role</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#616e7f">................................ </tspan><tspan fill="#a5d6ff">AEC Software Engineer</tspan></text>
+<rect x="390" y="231" width="580" height="58" fill="#161b22"/>
+<text x="390" y="251" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#ffa657">Focus</tspan><tspan fill="#c9d1d9">.</tspan><tspan fill="#ffa657">AI</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#a5d6ff">AI engineering, autonomous agents, and software tools</tspan></text>
+<text x="390" y="271" font-family="Consolas, Menlo, monospace" font-size="16"><tspan fill="#616e7f">. </tspan><tspan fill="#ffa657">Databases</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#a5d6ff">MongoDB, SQLite, MySQL, PostgreSQL</tspan></text>'''
+    (ROOT / 'dark_mode.svg').write_text(custom.rsplit('</svg>', 1)[0] + overlay + '</svg>', encoding='utf-8')
+
 def build():
     user = api('users/' + USER)
     repos = api('users/' + USER + '/repos?per_page=100')
@@ -88,7 +99,7 @@ def build():
         # The dark profile card is a user-edited SVG. Keep it verbatim so the
         # scheduled refresh never rewrites its custom layout or artwork.
         if theme == 'dark' and (ROOT / 'assets' / 'custom_dark_mode.svg').exists():
-            (ROOT / 'dark_mode.svg').write_bytes((ROOT / 'assets' / 'custom_dark_mode.svg').read_bytes())
+            write_custom_dark()
         else:
             (ROOT / f'{theme}_mode.svg').write_text(card_svg, encoding='utf-8')
         for name, label, detail in [('projects', 'Repositories', 'Explore my work ↗'), ('email', 'Get in touch', 'Send me an email ↗')]:
